@@ -1,0 +1,7 @@
+<% if @reservation.errors.full_messages %>
+        <% @reservation.errors.full_messages.each do |error_message| %>
+            <div class="error_message">
+                <%= error_message %>
+            </div>   
+        <% end %>
+<% end%>  

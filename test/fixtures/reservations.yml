@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  date: 2020-08-02
+  s_time: MyString
+  f_time: MyString
+  name: MyString
+  menu: MyString
+  user_id: 1
+
+two:
+  date: 2020-08-02
+  s_time: MyString
+  f_time: MyString
+  name: MyString
+  menu: MyString
+  user_id: 1

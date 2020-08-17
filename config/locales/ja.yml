@@ -1,0 +1,18 @@
+ja:
+  activerecord:
+    models:
+      user: ユーザー
+      reservation: 予約
+      holiday: 休業日
+    attributes:
+      user:
+        password: パスワード
+      reservation:
+        name: 氏名
+        menu: メニュー
+        date: 日付
+        s_time: 来店時間
+        f_time: 終了時間
+        memo: memo
+        
+      
