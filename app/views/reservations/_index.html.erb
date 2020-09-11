@@ -1,11 +1,156 @@
-<h1>=====================================</h1>
+<div id="reservation-index">
+    <h1>予約一覧</h1>
+    <div class="time-list">
+        <h2>
+            <div class="change-date">
+                <% difference = @dates[0] - Date.today %>
+                <%= link_to("＜", reservations_change_date_path(-1, difference), method: :post) %>                
+            </div>
+            <div class="change-date">
+                <%= link_to("＞", reservations_change_date_path(1, difference), method: :post) %>                
+            </div>                
+        </h2>
+        <% @visit_times.shift(1) %>
+        <% @visit_times.each do |visit_time| %>
+            <p><%= visit_time %></p>
+        <% end %>
+    </div>
+    <script>
+        $(function(){
+            for(var i = 0; i < 24 ; i += 1){
+                if (i % 2 == 0){
+                    $(".time-list").children("p").eq(i).css("font-weight", "bold");
+                 }
+            }
+         });
+    </script>    
+    <% time_table_count = 0 %>
+    <% while time_table_count < 4 do%>
+        <div class="time-table">
+            <div class="date">
+                <%= "#{@dates[time_table_count].month}月#{@dates[time_table_count].day}日(#{%w(日 月 火 水 木 金 土)[@dates[time_table_count].wday]})" %>
+                <div class="time-warning">
+                    <span class="far fa-times-circle close-time-warning"></span>
+                    <p>予約時間が重複しています</p>
+                </div>
+                <span class="fas fa-exclamation-triangle time-warning-icon"></span>
+            </div>
 
-<% @reservations.each do |reservation| %>
-    <%= reservation.name %>
+            <% table_count = 0 %>
+            <% while table_count < 2 do %>
+                <div class="table">
+                    <% p_count = 0 %>
+                    <% while p_count < 24 do %>
+                        <p></p>
+
+                        <% p_count += 1 %>   
+                    <% end %>
+                    <h2></h2> 
+                </div>
+                <% table_count += 1 %>
+            <% end %>
+        </div>
+        <% time_table_count += 1 %>
+    <% end %>
+</div>
+
+<p id="data-pass"></p>
+<% @time_table_number = 0 %>
+<% while @time_table_number < 4 %>
+    <script>
+        $(function(){
+            $("#data-pass").attr("data-table-number", "<%= @time_table_number %>");
+        });
+    </script>
+    <% @p_number = 0 %>
+    <% while @p_number < 24 %>      
+        <% @p_number += 1 %>
+        <script>
+            $(function(){
+                $("#data-pass").attr("data-p-number", "<%= @p_number %>");
+            });
+        </script>
+        <% @reservations_this_time = Reservation.where(date: @dates[@time_table_number], visit_time: @visit_times[@p_number], user_id: 1) %>
+
+        <% if @reservations_this_time.length >= 1 %>
+            <script>
+                $(function(){
+                    var $data_pass = $("#data-pass");
+                    var $p_n = $data_pass.attr("data-p-number");
+                    $data_pass.attr("data-p-length", "<%= @required_times.index(@reservations_this_time[0].required_time) %>");
+                    var $p_l = Number($data_pass.attr("data-p-length")) - 1;
+                    var $table_block = $(".time-table").eq($data_pass.attr("data-table-number")).children(".table");
+                    if (!$table_block.eq(0).children("p").eq($p_n).hasClass("visit-time")){
+                        $table_block.eq(0).children("p").eq($p_n).html('<%= link_to("#{@reservations_this_time[0][:name]} 様", reservations_edit_path(@reservations_this_time[0][:id]), method: :post) %>').addClass("visit-time visit-time1");
+                        for (var i = 1; i <= $p_l; i += 1){
+                            var p_length =  Number($p_n) + i;
+                            $table_block.eq(0).children("p").eq(p_length).addClass("visit-time required-time1");
+                            if (i == $p_l){
+                                $table_block.eq(0).children("p").eq(p_length).addClass("end-time");
+                            }
+                        }
+                    } else if (!$table_block.eq(1).children("p").eq($p_n).hasClass("visit-time")){
+                        $table_block.eq(1).children("p").eq($p_n).html('<%= link_to("#{@reservations_this_time[0][:name]} 様", reservations_edit_path(@reservations_this_time[0][:id]), method: :post) %>').addClass("visit-time visit-time2");
+                        for(var i = 1; i <= $p_l; i += 1){
+                            var p_length =  Number($p_n) + i;
+                            $table_block.eq(1).children("p").eq(p_length).addClass("visit-time required-time2");
+                            if (i == $p_l){
+                                $table_block.eq(1).children("p").eq(p_length).addClass("end-time");
+                            }
+                        }
+                    } else {
+                        $(".date").eq($data_pass.attr("data-table-number")).children("div").append('<h4><%= link_to("・#{@reservations_this_time[0][:name]} 様 #{@reservations_this_time[0][:visit_time]}〜", reservations_edit_path(@reservations_this_time[0][:id]), method: :post) %></h4>');
+                    }
+                });
+            </script>
+            <% if @reservations_this_time.length >= 2 %>
+            <script>
+                $(function(){
+                    var $data_pass = $("#data-pass");
+                    var $p_n = $data_pass.attr("data-p-number");
+                    $data_pass.attr("data-p-length", "<%= @required_times.index(@reservations_this_time[1].required_time) %>");
+                    var $p_l = Number($data_pass.attr("data-p-length")) - 1;
+                    var $table_block = $(".time-table").eq($data_pass.attr("data-table-number")).children(".table");
+                    if (!$table_block.eq(1).children("p").eq($p_n).hasClass("visit-time")){
+                        $table_block.eq(1).children("p").eq($p_n).html('<%= link_to("#{@reservations_this_time[1][:name]} 様", reservations_edit_path(@reservations_this_time[1][:id]), method: :post) %>').addClass("visit-time visit-time2");
+                        for (var i = 1; i <= $p_l; i += 1){
+                            var p_length =  Number($p_n) + i;
+                            $table_block.eq(1).children("p").eq(p_length).addClass("visit-time required-time2");
+                            if (i == $p_l){
+                                $table_block.eq(1).children("p").eq(p_length).addClass("end-time");
+                            }
+                        }
+                    } else {
+                        $(".date").eq($data_pass.attr("data-table-number")).children("div").append('<h4><%= link_to("・#{@reservations_this_time[1][:name]} 様 #{@reservations_this_time[1][:visit_time]}〜", reservations_edit_path(@reservations_this_time[1][:id]), method: :post) %></h4>');
+                    }
+                });
+            </script>                
+            <% end %>
+        <% end %>
+    <% end %>
+    <% @time_table_number += 1 %>
 <% end %>
 
-<div>
-    <p class="test">テスト</p>
-    <p>
-    </p>
-</div>
+<script>
+    $(function(){
+        for(var i = 0; i < 192 ; i += 1){
+            if (i % 2 == 0){
+                 $(".table").children("p").eq(i).css("border-top-style", "solid");
+             }
+             if ($(".time-warning").eq(i).children("h4").length > 0){
+                 $(".date").eq(i).children(".time-warning-icon").show();
+             }                    
+        }
+        $(".time-warning-icon").click(function(){
+            var $time_warning = $(this).parent().children(".time-warning");
+            if ($time_warning.children("h4").length > 0){
+                $(this).css("color", "orange").css("font-size", "18px");
+                $time_warning.addClass("active");
+            }
+        });
+        $(".close-time-warning").click(function(){
+            $(this).parent().parent().children(".time-warning-icon").css("color", "red").css("font-size", "16px");
+            $(this).parent().removeClass("active");
+        });
+    });
+</script>    

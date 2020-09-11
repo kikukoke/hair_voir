@@ -3,12 +3,21 @@
   <head>
     <title>HairVoir</title>
     <%= csrf_meta_tags %>
-
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    
   </head>
 
   <body>
+    <% if flash[:notice] %>
+      <div id="flash"><span class="fas fa-bell"></span> <%= flash[:notice] %></div>
+      <script>
+        $(function(){
+          $("#flash").fadeOut(2000);
+        });
+      </script>
+    <% end %>
+
     <%= yield %>
   </body>
 </html>

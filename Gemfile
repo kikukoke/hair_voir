@@ -2,9 +2,11 @@ source 'https://rubygems.org'
 
 git_source(:github) do |repo_name|
   repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?("/")
-  "https://github.com/#{repo_name}.git"
+  "https://github.com/#{repo_name}.git" 
 end
 
+
+ruby '2.6.3'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.1.7'
@@ -13,7 +15,7 @@ gem 'sqlite3'
 # Use Puma as the app server
 gem 'puma', '~> 3.7'
 # Use SCSS for stylesheets
-gem 'sass-rails', '~> 5.0'
+gem 'sassc-rails' 
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
@@ -31,10 +33,13 @@ gem 'jbuilder', '~> 2.5'
 
 gem 'bcrypt', '~> 3.1.7'
 
-gem 'jquery-rails'
+gem 'jquery-rails', '~> 4.3.5'
 gem 'bootstrap-sass', '3.3.7'
 
-gem 'rails-i18n'
+gem 'rails-i18n', '~> 5.1.3'
+gem 'active_hash'
+
+gem 'font-awesome-sass', '~> 5.4.1'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

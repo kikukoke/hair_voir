@@ -1,0 +1,18 @@
+    <div id="reservation-edit">
+        <h1>予約変更</h1>
+        <%= render "error_messages" %>
+            <div class="reservation-form">
+            <%= form_for(@reservation, url: reservations_update_path(@reservation.id)) do |f| %>
+                <p><%= f.text_field :name, :placeholder => "氏名", :class => "name-field" %>様</p> 
+                <p>メニュー：<%= f.select :menu, ["カット", "カラー", "パーマ", "その他"] %></p>
+                <p>
+                    日付：<%= f.date_field :date, :class => "date-field" %><br>
+                    来店時間：<%= f.select :visit_time, @visit_times %><br>
+                    所要時間：<%= f.select :required_time, @required_times %>
+                </p>
+                <p><%= f.text_field :memo, :placeholder => "メモ", :class => "memo-field" %></p>
+                <%= f.submit "予約を変更する", :class => "reservation-btn edit-btn" %>
+                <%= link_to("削除", reservations_destroy_path(@reservation.id), method: :post, :class => "reservation-btn destroy-btn")%>
+            <% end %>
+        </div>
+    </div>

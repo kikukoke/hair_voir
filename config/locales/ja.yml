@@ -11,8 +11,8 @@ ja:
         name: 氏名
         menu: メニュー
         date: 日付
-        s_time: 来店時間
-        f_time: 終了時間
+        visit_time: 来店時間
+        required_time: 所要時間
         memo: memo
         
       

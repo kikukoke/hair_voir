@@ -1,0 +1,14 @@
+<div id="reservation-top">
+    <div class="menu">
+        <%= link_to("更新", reservations_top_path(Date.today), data: {"turbolinks"=>false}) %>
+    </div>
+    <% if @new %>
+        <%= render "new" %>
+    <% else %>
+        <%= render "edit" %>
+    <% end %>   
+    <%= render "index" %>
+    <div class="clear"></div>
+</div>
+
+

@@ -1,7 +1,23 @@
-<% if @reservation.errors.full_messages %>
-        <% @reservation.errors.full_messages.each do |error_message| %>
-            <div class="error_message">
-                <%= error_message %>
-            </div>   
-        <% end %>
+
+<div class="error_message">
+    <div>
+        <span class="far fa-times-circle close-error"></span>
+        <div class="clear"></div>
+    </div>
+    <% @reservation.errors.full_messages.each do |error_message| %>
+        <p><span class="fas fa-exclamation-triangle"></span> <%= error_message %></p>
+    <% end %>
+</div>  
+
+<% if @reservation.errors.full_messages[0] %>
+    <script>
+        $(function(){
+            $(".error_message").addClass("active");
+        })
+        $(".close-error").click(function(){
+             $(".error_message").removeClass("active");
+        });
+    </script>
 <% end%>  
+
+

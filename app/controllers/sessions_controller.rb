@@ -9,7 +9,7 @@ class SessionsController < ApplicationController
 
         if user.authenticate(params[:session][:password]) 
             session[:admin] = true
-            redirect_to(reservations_new_path)
+            redirect_to(reservations_top_path(Date.today))
         else
             render("sessions/login_form")
         end

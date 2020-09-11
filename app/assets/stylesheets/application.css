@@ -14,3 +14,39 @@
  *= require_self
  */
 
+*{
+    font-family: sans-serif;
+    list-style: none;
+    box-sizing: border-box;
+}
+
+body{
+    width: 100%;
+}
+a{
+    text-decoration: none;
+}
+.clear{
+    clear: both;
+}
+#data-pass{
+    display: none;
+}
+.active{
+    display: block;
+}
+
+#flash{
+    font-size: 25px;
+    padding: 10px;
+    background-color: rgb(248, 240, 121);
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 20;
+    border-radius: 8px;
+}
+.fa-bell{
+    font-size: 30;
+    color: rgb(255, 208, 0);
+}
